@@ -1,4 +1,5 @@
 import 'package:app_manager/screens/auth/login_screen.dart';
+import 'package:app_manager/screens/home_screen.dart';
 import 'package:app_manager/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }

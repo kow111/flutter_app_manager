@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
+import "../../services/auth_service.dart";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  // ignore: unused_field
   String? _email;
-  // ignore: unused_field
   String? _password;
+  final AuthService _authService = AuthService();
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      bool isLoggedIn = await _authService.login(_email!, _password!);
+      if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Login failed! Please check your credentials.')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Ô nhập Email
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
@@ -44,8 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 onSaved: (value) => _email = value,
               ),
               const SizedBox(height: 16),
-
-              // Ô nhập mật khẩu
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
@@ -61,16 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 onSaved: (value) => _password = value,
               ),
               const SizedBox(height: 32),
-
-              // Nút Đăng nhập
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    // ignore: avoid_print
-                    print('Email: $_email, Password: $_password');
-                  }
-                },
+                onPressed: _login,
                 child: const Text('Login'),
               ),
             ],
