@@ -20,7 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       bool isLoggedIn = await _authRepository.login(_email!, _password!);
       if (isLoggedIn) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/home',
+          (Route<dynamic> route) => false,
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
