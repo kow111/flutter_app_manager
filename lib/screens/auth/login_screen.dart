@@ -1,5 +1,5 @@
+import 'package:app_manager/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
-import "../../services/auth_service.dart";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,13 +12,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _email;
   String? _password;
-  final AuthService _authService = AuthService();
+  final AuthRepository _authRepository = AuthRepository();
 
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      bool isLoggedIn = await _authService.login(_email!, _password!);
+      bool isLoggedIn = await _authRepository.login(_email!, _password!);
       if (isLoggedIn) {
         Navigator.pushReplacementNamed(context, '/home');
       } else {

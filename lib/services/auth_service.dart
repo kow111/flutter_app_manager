@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:app_manager/models/auth/login_dto.dart';
+
 import 'api_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -7,15 +9,16 @@ class AuthService {
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
   // API đăng nhập
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(LoginDto loginDto) async {
     var response = await _apiClient.postPublic(
       '/auth/login',
-      {'email': email, 'password': password},
+      loginDto.toJson(),
     );
     try {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-        final bool role = responseData['DT']['is_admin'];
+        print(responseData);
+        final bool role = responseData['DT']['user']['is_admin'];
         if (!role) {
           return false;
         }
