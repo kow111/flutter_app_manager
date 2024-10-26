@@ -1,79 +1,55 @@
+// home_screen.dart
+import 'package:app_manager/screens/dashboard/dash_board_screen.dart';
 import 'package:app_manager/screens/order/order_screen.dart';
 import 'package:app_manager/screens/product/product_screen.dart';
 import 'package:app_manager/screens/user/user_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  var selectedIndex = 0;
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget page;
-    //NavigationRail
-    switch (selectedIndex) {
-      case 0:
-        page = Center(
-          child: Text('Welcome to Home Screen!'),
-        );
-        break;
-      case 1:
-        page = ProductScreen();
-        break;
-      case 2:
-        page = UserScreen();
-        break;
-      case 3:
-        page = OrderScreen();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Trang Chủ'),
+        centerTitle: true,
+        backgroundColor: Colors.green[50],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: GridView.count(
+          crossAxisCount: 2, // Hai cột
           children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600, // ← Here.
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.shopping_cart),
-                    label: Text('Sản phẩm'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.person),
-                    label: Text('Người dùng'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Đơn hàng'),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
+            _buildGridTile(context, 'Sản phẩm', ProductScreen()),
+            _buildGridTile(context, 'Người dùng', UserScreen()),
+            _buildGridTile(context, 'Đơn hàng', OrderScreen()),
+            _buildGridTile(context, 'Dashboard', DashBoardScreen()),
           ],
         ),
-      );
-    });
+      ),
+    );
+  }
+
+  Widget _buildGridTile(BuildContext context, String title, Widget page) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(8),
+        child: Card(
+          child: SizedBox(
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

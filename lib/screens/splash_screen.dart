@@ -15,8 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 10), () {
-      Navigator.pushReplacementNamed(
-          context, '/login'); // Chuyển sang LoginScreen
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
     });
   }
 
