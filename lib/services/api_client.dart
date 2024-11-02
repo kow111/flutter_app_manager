@@ -3,17 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiClient {
-  final String _baseUrl =
-      'http://localhost:3000/api/v1'; // Thay URL phù hợp với API
+  final String _baseUrl = 'http://localhost:3000/api/v1';
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
-  // Headers chung
   Map<String, String> _defaultHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
 
-  // Gọi API GET công khai
   Future<http.Response> getPublic(String endpoint) async {
     final url = Uri.parse('$_baseUrl$endpoint');
     try {
@@ -23,7 +20,6 @@ class ApiClient {
     }
   }
 
-  // Gọi API POST công khai
   Future<http.Response> postPublic(
       String endpoint, Map<String, dynamic> data) async {
     final url = Uri.parse('$_baseUrl$endpoint');
@@ -38,12 +34,10 @@ class ApiClient {
     }
   }
 
-  // Lấy token từ secure storage
   Future<String?> _getToken() async {
     return await _secureStorage.read(key: 'token');
   }
 
-  // Headers có token cho các API bảo mật
   Future<Map<String, String>> _getAuthHeaders() async {
     final token = await _getToken();
     return {
@@ -52,7 +46,6 @@ class ApiClient {
     };
   }
 
-  // Gọi API GET bảo mật
   Future<http.Response> getPrivate(String endpoint) async {
     final url = Uri.parse('$_baseUrl$endpoint');
     try {
@@ -63,7 +56,6 @@ class ApiClient {
     }
   }
 
-  // Gọi API POST bảo mật
   Future<http.Response> postPrivate(
       String endpoint, Map<String, dynamic> data) async {
     final url = Uri.parse('$_baseUrl$endpoint');
@@ -79,7 +71,6 @@ class ApiClient {
     }
   }
 
-  // Gọi API PUT bảo mật
   Future<http.Response> putPrivate(
       String endpoint, Map<String, dynamic> data) async {
     final url = Uri.parse('$_baseUrl$endpoint');
@@ -95,7 +86,6 @@ class ApiClient {
     }
   }
 
-  // Gọi API DELETE bảo mật
   Future<http.Response> deletePrivate(String endpoint) async {
     final url = Uri.parse('$_baseUrl$endpoint');
     try {
