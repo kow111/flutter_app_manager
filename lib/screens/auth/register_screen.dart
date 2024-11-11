@@ -1,4 +1,4 @@
-import 'package:app_manager/features/auth/register/cubit/register_cubit.dart';
+import 'package:app_manager/providers/auth/register/register_cubit.dart';
 import 'package:app_manager/repositories/auth_repository.dart';
 import 'package:app_manager/screens/auth/otp_screen.dart';
 import 'package:flutter/material.dart';

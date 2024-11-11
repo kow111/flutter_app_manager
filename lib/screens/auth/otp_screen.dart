@@ -1,7 +1,7 @@
 // otp_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app_manager/features/auth/otp/cubit/otp_cubit.dart';
+import 'package:app_manager/providers/auth/otp/otp_cubit.dart';
 import 'package:app_manager/repositories/auth_repository.dart';
 
 class OtpScreen extends StatelessWidget {

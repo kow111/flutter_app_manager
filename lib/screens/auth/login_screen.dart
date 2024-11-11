@@ -1,4 +1,4 @@
-import 'package:app_manager/features/auth/login/cubit/login_cubit.dart';
+import 'package:app_manager/providers/auth/login/login_cubit.dart';
 import 'package:app_manager/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,15 +67,13 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                        '/register'); // Thay đổi '/register' thành route thực tế của bạn
+                    Navigator.of(context).pushNamed('/register');
                   },
                   child: Text("Don't have an account? Register"),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                        '/forgot_password'); // Thay đổi '/register' thành route thực tế của bạn
+                    Navigator.of(context).pushNamed('/forgot_password');
                   },
                   child: Text("Forgot password?"),
                 ),

@@ -1,4 +1,4 @@
-import 'package:app_manager/features/auth/otp/cubit/otp_cubit.dart';
+import 'package:app_manager/providers/auth/otp/otp_cubit.dart';
 import 'package:app_manager/repositories/auth_repository.dart';
 import 'package:app_manager/screens/auth/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
