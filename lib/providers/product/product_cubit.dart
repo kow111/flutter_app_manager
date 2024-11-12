@@ -13,23 +13,22 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this.productRepository) : super(ProductInitial());
 
-  Future<void> getProducts({page = 1}) async {
-    print('page: $page');
+  Future<void> getProducts() async {
     if (state is ProductLoading ||
         state is ProductLoadingMore ||
         currentPage > totalPage) return;
 
-    if (page == 1) {
+    if (currentPage == 1) {
       emit(ProductLoading());
     } else {
       isLoadingMore = true;
     }
     try {
-      final result = await productRepository.getProducts(page: page);
+      final result = await productRepository.getProducts(page: currentPage);
       final List<Product> products = result['products'];
       totalPage = result['totalPage'];
 
-      if (page == 1) {
+      if (currentPage == 1) {
         emit(ProductSuccess(products));
       } else {
         print((state as ProductSuccess).products);

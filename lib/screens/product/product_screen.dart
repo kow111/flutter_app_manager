@@ -9,13 +9,11 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   ScrollController _scrollController = ScrollController();
-  int _page = 1;
 
   @override
   void initState() {
     super.initState();
-    // Make sure that the cubit gets the initial data.
-    context.read<ProductCubit>().getProducts(page: _page);
+    context.read<ProductCubit>().getProducts();
     _scrollController.addListener(_scrollListener);
   }
 
@@ -25,13 +23,13 @@ class _ProductScreenState extends State<ProductScreen> {
             _scrollController.position.maxScrollExtent &&
         !productCubit.isLoadingMore &&
         productCubit.currentPage <= productCubit.totalPage) {
-      productCubit.getProducts(page: productCubit.currentPage);
+      productCubit.getProducts();
     }
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Don't forget to dispose of your controller.
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -40,6 +38,22 @@ class _ProductScreenState extends State<ProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Products'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              final productCubit = context.read<ProductCubit>();
+              productCubit.currentPage = 1;
+              productCubit.getProducts();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/add-product');
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {

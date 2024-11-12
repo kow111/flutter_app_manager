@@ -1,9 +1,14 @@
+import 'package:app_manager/providers/category/category_cubit.dart';
+import 'package:app_manager/providers/color/color_cubit.dart';
 import 'package:app_manager/providers/product/product_cubit.dart';
+import 'package:app_manager/repositories/category_repository.dart';
+import 'package:app_manager/repositories/color_repository.dart';
 import 'package:app_manager/repositories/product_repository.dart';
 import 'package:app_manager/screens/auth/enter_email_screen.dart';
 import 'package:app_manager/screens/auth/login_screen.dart';
 import 'package:app_manager/screens/auth/register_screen.dart';
 import 'package:app_manager/screens/home_screen.dart';
+import 'package:app_manager/screens/product/add_product_screen.dart';
 import 'package:app_manager/screens/product/product_screen.dart';
 import 'package:app_manager/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         BlocProvider(create: (context) => ProductCubit(ProductRepository())),
+        BlocProvider(create: (context) => ColorCubit(ColorRepository())),
+        BlocProvider(create: (context) => CategoryCubit(CategoryRepository())),
       ],
       child: MaterialApp(
         title: 'App Manager',
@@ -35,6 +42,7 @@ class MyApp extends StatelessWidget {
           '/forgot_password': (context) => EnterEmailScreen(),
           '/home': (context) => HomeScreen(),
           '/product': (context) => ProductScreen(),
+          '/add-product': (context) => AddProductScreen(),
         },
       ),
     );
