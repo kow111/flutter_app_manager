@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiClient {
-  final String _baseUrl = 'http://localhost:3000/api/v1';
+  final String _baseUrl = 'http://192.168.2.102:3000/api/v1';
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
   Map<String, String> _defaultHeaders = {

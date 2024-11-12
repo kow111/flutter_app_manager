@@ -9,7 +9,7 @@ class Product {
   final List<Category> category;
   final int quantity;
   final List<String> imageUrl;
-  final double price;
+  final int price;
   final Color color;
   final String condition;
 
