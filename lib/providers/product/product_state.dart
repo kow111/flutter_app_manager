@@ -20,3 +20,13 @@ final class ProductFailure extends ProductState {
 
   ProductFailure(this.error);
 }
+
+final class ProductAddSuccess extends ProductState {}
+
+final class ProductAddFailure extends ProductState {
+  final String error;
+
+  ProductAddFailure(this.error);
+}
+
+final class ProductAddLoading extends ProductState {}

@@ -13,7 +13,9 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductCubit>().getProducts();
+    final productCubit = context.read<ProductCubit>();
+    productCubit.setCurrentPage(1);
+    productCubit.getProducts();
     _scrollController.addListener(_scrollListener);
   }
 
@@ -43,14 +45,18 @@ class _ProductScreenState extends State<ProductScreen> {
             icon: Icon(Icons.refresh),
             onPressed: () {
               final productCubit = context.read<ProductCubit>();
-              productCubit.currentPage = 1;
+              productCubit.setCurrentPage(1);
               productCubit.getProducts();
             },
           ),
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/add-product');
+            onPressed: () async {
+              await Navigator.of(context).pushNamed('/add-product');
+              // Gọi lại getProducts sau khi quay lại
+              final productCubit = context.read<ProductCubit>();
+              productCubit.setCurrentPage(1);
+              productCubit.getProducts();
             },
           ),
         ],

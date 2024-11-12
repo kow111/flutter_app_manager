@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_manager/models/product/product.dart';
+import 'package:app_manager/models/product/product_dto.dart';
 import 'package:app_manager/services/api_client.dart';
 
 class ProductService {
@@ -23,6 +24,19 @@ class ProductService {
       }
     } catch (error) {
       throw Exception('Failed to load products: $error');
+    }
+  }
+
+  Future<bool> addProduct(ProductDto data) async {
+    var response = await _apiClient.postPrivate('/product', data.toJson());
+    try {
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to add product');
+      }
+    } catch (error) {
+      throw Exception('Failed to add product: $error');
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -93,6 +94,28 @@ class ApiClient {
       return await http.delete(url, headers: headers);
     } catch (e) {
       throw Exception('Failed to delete data: $e');
+    }
+  }
+
+  Future<http.Response> uploadImage(File imageFile) async {
+    final url = Uri.parse("$_baseUrl/upload");
+    try {
+      final headers = await _getAuthHeaders();
+
+      var request = http.MultipartRequest('POST', url);
+      request.headers.addAll(headers);
+
+      // Thêm file ảnh
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',
+          imageFile.path,
+        ),
+      );
+      var response = await request.send();
+      return await http.Response.fromStream(response);
+    } catch (e) {
+      throw Exception('Failed to upload image: $e');
     }
   }
 }

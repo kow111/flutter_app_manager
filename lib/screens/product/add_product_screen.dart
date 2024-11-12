@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_manager/models/category/category.dart';
 import 'package:app_manager/providers/category/category_cubit.dart';
 import 'package:app_manager/providers/color/color_cubit.dart';
+import 'package:app_manager/providers/product/product_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -50,6 +51,30 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       _images = pickedFiles.map((file) => File(file.path)).toList();
     });
+  }
+
+  void _handleAddProduct(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      final productName = _nameController.text;
+      final description = _descriptionController.text;
+      final price = int.parse(_priceController.text);
+      final quantity = int.parse(_quantityController.text);
+      final size = _selectedSize!;
+      final condition = _selectedCondition!;
+      final color = _selectedColorId!;
+      final category = _selectedCategories;
+      context.read<ProductCubit>().addProduct(
+            productName,
+            description,
+            size,
+            category,
+            quantity,
+            _images,
+            price,
+            condition,
+            color,
+          );
+    }
   }
 
   @override
@@ -225,14 +250,27 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       )
                     : Container(),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: Text('Thêm sản phẩm'),
-                ),
+                BlocConsumer<ProductCubit, ProductState>(
+                    listener: (context, state) {
+                  if (state is ProductAddFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.error)),
+                    );
+                  } else if (state is ProductAddSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Thêm sản phẩm thành công')),
+                    );
+                    Navigator.of(context).pop();
+                  }
+                }, builder: (context, state) {
+                  if (state is ProductAddLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  return ElevatedButton(
+                    onPressed: () => _handleAddProduct(context),
+                    child: Text('Thêm sản phẩm'),
+                  );
+                }),
               ],
             ),
           ),
