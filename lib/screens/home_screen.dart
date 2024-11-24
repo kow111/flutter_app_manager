@@ -1,5 +1,6 @@
 // home_screen.dart
 import 'package:app_manager/screens/dashboard/dash_board_screen.dart';
+import 'package:app_manager/screens/discount/discount_screen.dart';
 import 'package:app_manager/screens/order/order_screen.dart';
 import 'package:app_manager/screens/product/product_screen.dart';
 import 'package:app_manager/screens/user/user_screen.dart';
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
             _buildGridTile(context, 'Người dùng', UserScreen()),
             _buildGridTile(context, 'Đơn hàng', OrderScreen()),
             _buildGridTile(context, 'Dashboard', DashBoardScreen()),
+            _buildGridTile(context, 'Mã giảm giá', DiscountScreen()),
           ],
         ),
       ),

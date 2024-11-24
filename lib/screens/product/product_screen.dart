@@ -66,44 +66,43 @@ class _ProductScreenState extends State<ProductScreen> {
           if (state is ProductLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is ProductSuccess) {
-            final products = state.products;
-            final isLoadingMore = context.read<ProductCubit>().isLoadingMore;
-
             return ListView.builder(
-              itemCount: products.length + 1,
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                if (index == products.length) {
-                  return isLoadingMore
-                      ? Center(child: CircularProgressIndicator())
-                      : Container();
-                }
-                final product = products[index];
-                return ListTile(
-                  title: Text(product.productName),
-                  subtitle: Text(product.description),
-                  trailing: Text('\$${product.price}'),
-                  isThreeLine: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: Text(product.productName),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Categories: ${product.category.map((cat) => cat.name).join(', ')}'),
-                            Text('Color: ${product.color.name}'),
-                          ],
-                        ),
-                      ),
+                itemCount: state.products.length + 1,
+                controller: _scrollController,
+                itemBuilder: (context, index) {
+                  if (index < state.products.length) {
+                    final product = state.products[index];
+                    return ListTile(
+                      title: Text(product.productName),
+                      subtitle: Text(product.description),
+                      trailing: Text('\$${product.price}'),
+                      isThreeLine: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: Text(product.productName),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    'Categories: ${product.category.map((cat) => cat.name).join(', ')}'),
+                                Text('Color: ${product.color.name}'),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              },
-            );
+                  } else {
+                    if (context.read<ProductCubit>().isLoadingMore) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return Container();
+                    }
+                  }
+                });
           } else if (state is ProductFailure) {
             return Center(child: Text(state.error));
           }

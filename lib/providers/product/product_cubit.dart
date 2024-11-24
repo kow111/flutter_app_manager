@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app_manager/models/category/category.dart';
-import 'package:app_manager/models/product/product.dart';
+import 'package:app_manager/models/product/product_model.dart';
 import 'package:app_manager/repositories/product_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -29,8 +29,9 @@ class ProductCubit extends Cubit<ProductState> {
   int get currentPage => _currentPage;
 
   Future<void> getProducts() async {
-    if (state is ProductLoading || isLoadingMore || currentPage > totalPage)
+    if (state is ProductLoading || isLoadingMore || currentPage > totalPage) {
       return;
+    }
 
     if (currentPage == 1) {
       emit(ProductLoading());
@@ -47,8 +48,7 @@ class ProductCubit extends Cubit<ProductState> {
       } else {
         print((state as ProductSuccess).products);
         final currentProducts = (state as ProductSuccess).products;
-        final newProducts = List<Product>.from(currentProducts)
-          ..addAll(products);
+        final newProducts = [...currentProducts, ...products];
         emit(ProductSuccess(newProducts));
       }
       _currentPage++;

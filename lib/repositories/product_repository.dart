@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app_manager/models/category/category.dart';
-import 'package:app_manager/models/product/product.dart';
+import 'package:app_manager/models/product/product_model.dart';
 import 'package:app_manager/models/product/product_dto.dart';
 import 'package:app_manager/services/product_service.dart';
 import 'package:app_manager/services/upload_service.dart';
