@@ -1,3 +1,4 @@
+import 'package:app_manager/models/discount/discount_dto.dart';
 import 'package:app_manager/models/discount/discount_model.dart';
 import 'package:app_manager/services/discount_service.dart';
 
@@ -9,5 +10,9 @@ class DiscountRepository {
       'discounts': result['discounts'] as List<DiscountModel>,
       'totalPage': result['totalPage'] as int,
     };
+  }
+
+  Future<bool> addDiscount(DiscountDto data) async {
+    return await _discountService.addDiscount(data);
   }
 }

@@ -15,7 +15,7 @@ class DiscountDto {
     return {
       'discountCode': discountCode,
       'discountPercentage': discountPercentage,
-      'expiredAt': expiredAt,
+      'expiredAt': expiredAt?.toIso8601String(),
       'usageLimit': usageLimit,
     };
   }

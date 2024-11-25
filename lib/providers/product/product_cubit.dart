@@ -46,7 +46,6 @@ class ProductCubit extends Cubit<ProductState> {
       if (currentPage == 1) {
         emit(ProductSuccess(products));
       } else {
-        print((state as ProductSuccess).products);
         final currentProducts = (state as ProductSuccess).products;
         final newProducts = [...currentProducts, ...products];
         emit(ProductSuccess(newProducts));

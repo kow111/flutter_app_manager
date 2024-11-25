@@ -85,7 +85,9 @@ class _DiscountScreenState extends State<DiscountScreen> {
                   if (context.read<DiscountCubit>().isLoadingMore) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return Container();
+                    // Thêm khoảng trống cuối danh sách
+                    return SizedBox(
+                        height: MediaQuery.of(context).size.height / 2);
                   }
                 }
               },
@@ -95,7 +97,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
               child: Text(state.error),
             );
           } else {
-            return Container();
+            return SizedBox(height: 200); // Tạo khoảng trống cuối danh sách
           }
         },
       ),

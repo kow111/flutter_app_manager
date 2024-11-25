@@ -9,6 +9,7 @@ import 'package:app_manager/repositories/product_repository.dart';
 import 'package:app_manager/screens/auth/enter_email_screen.dart';
 import 'package:app_manager/screens/auth/login_screen.dart';
 import 'package:app_manager/screens/auth/register_screen.dart';
+import 'package:app_manager/screens/discount/add_discount_screen.dart';
 import 'package:app_manager/screens/discount/discount_screen.dart';
 import 'package:app_manager/screens/home_screen.dart';
 import 'package:app_manager/screens/product/add_product_screen.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           '/product': (context) => ProductScreen(),
           '/discount': (context) => DiscountScreen(),
           '/add-product': (context) => AddProductScreen(),
+          '/add-discount': (context) => AddDiscountScreen(),
         },
       ),
     );

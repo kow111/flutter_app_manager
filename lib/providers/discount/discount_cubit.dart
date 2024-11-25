@@ -1,3 +1,4 @@
+import 'package:app_manager/models/discount/discount_dto.dart';
 import 'package:app_manager/models/discount/discount_model.dart';
 import 'package:app_manager/repositories/discount_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -51,6 +52,21 @@ class DiscountCubit extends Cubit<DiscountState> {
       emit(DiscountFailure('Failed to load discounts: $error'));
     } finally {
       isLoadingMore = false;
+    }
+  }
+
+  Future<void> addDiscount(DiscountDto discount) async {
+    if (state is DiscountAddLoading) return;
+    emit(DiscountAddLoading());
+    try {
+      final result = await discountRepository.addDiscount(discount);
+      if (result) {
+        emit(DiscountAddSuccess());
+      } else {
+        emit(DiscountAddFailure('Failed to add discount'));
+      }
+    } catch (error) {
+      emit(DiscountAddFailure('Failed to add discount: $error'));
     }
   }
 }

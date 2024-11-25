@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_manager/models/discount/discount_dto.dart';
 import 'package:app_manager/models/discount/discount_model.dart';
 import 'package:app_manager/services/api_client.dart';
 
@@ -24,6 +25,19 @@ class DiscountService {
       }
     } catch (error) {
       throw Exception('Failed to load discounts: $error');
+    }
+  }
+
+  Future<bool> addDiscount(DiscountDto data) async {
+    var response = await _apiClient.postPrivate('/discount', data.toJson());
+    try {
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to add discount');
+      }
+    } catch (error) {
+      throw Exception('Failed to add discount: $error');
     }
   }
 }
