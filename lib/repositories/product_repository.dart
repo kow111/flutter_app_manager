@@ -50,4 +50,35 @@ class ProductRepository {
 
     return await _productService.addProduct(product);
   }
+
+  Future<bool> updateProduct(
+      String id,
+      String productName,
+      String description,
+      String size,
+      List<Category> category,
+      int quantity,
+      // List<Object> actionImages,
+      int price,
+      String condition,
+      String color) async {
+    List<String> listCateId = [];
+    List<String> listImages = [];
+    for (var element in category) {
+      listCateId.add(element.id);
+    }
+    final product = ProductDto(
+      productName: productName,
+      description: description,
+      size: size,
+      category: listCateId,
+      quantity: quantity,
+      images: listImages,
+      price: price,
+      condition: condition,
+      color: color,
+    );
+
+    return await _productService.updateProduct(id, product);
+  }
 }

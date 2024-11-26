@@ -1,4 +1,5 @@
 import 'package:app_manager/providers/product/product_cubit.dart';
+import 'package:app_manager/screens/product/update_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,19 +79,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       trailing: Text('\$${product.price}'),
                       isThreeLine: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: Text(product.productName),
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    'Categories: ${product.category.map((cat) => cat.name).join(', ')}'),
-                                Text('Color: ${product.color.name}'),
-                              ],
-                            ),
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UpdateProductScreen(product: product),
                           ),
                         );
                       },

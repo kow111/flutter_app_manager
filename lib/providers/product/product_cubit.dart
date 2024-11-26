@@ -91,4 +91,38 @@ class ProductCubit extends Cubit<ProductState> {
       emit(ProductAddFailure('Failed to add product: $error'));
     }
   }
+
+  Future<void> updateProduct(
+      String id,
+      String productName,
+      String description,
+      String size,
+      List<Category> category,
+      int quantity,
+      int price,
+      String condition,
+      String color) async {
+    if (state is ProductUpdateLoading) return;
+    emit(ProductUpdateLoading());
+    try {
+      final result = await productRepository.updateProduct(
+        id,
+        productName,
+        description,
+        size,
+        category,
+        quantity,
+        price,
+        condition,
+        color,
+      );
+      if (result) {
+        emit(ProductUpdateSuccess());
+      } else {
+        emit(ProductUpdateFailure('Failed to update product'));
+      }
+    } catch (error) {
+      emit(ProductUpdateFailure('Failed to update product: $error'));
+    }
+  }
 }

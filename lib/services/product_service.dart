@@ -39,4 +39,17 @@ class ProductService {
       throw Exception('Failed to add product: $error');
     }
   }
+
+  Future<bool> updateProduct(String id, ProductDto data) async {
+    var response = await _apiClient.putPrivate('/product/$id', data.toJson());
+    try {
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to update product');
+      }
+    } catch (error) {
+      throw Exception('Failed to update product: $error');
+    }
+  }
 }

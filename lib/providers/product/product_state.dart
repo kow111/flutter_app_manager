@@ -30,3 +30,13 @@ final class ProductAddFailure extends ProductState {
 }
 
 final class ProductAddLoading extends ProductState {}
+
+final class ProductUpdateSuccess extends ProductState {}
+
+final class ProductUpdateFailure extends ProductState {
+  final String error;
+
+  ProductUpdateFailure(this.error);
+}
+
+final class ProductUpdateLoading extends ProductState {}
