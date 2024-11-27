@@ -149,6 +149,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     style: TextStyle(fontSize: 16)),
                 Text('Payment Status: ${widget.order.paymentStatus}',
                     style: TextStyle(fontSize: 16)),
+                Text(
+                  'Discount Code: ${widget.order.discountCode?.discountCode ?? 'None'}'
+                  '${widget.order.discountCode?.discountPercentage != null ? ' (${widget.order.discountCode?.discountPercentage}%)' : ''}',
+                  style: TextStyle(fontSize: 16),
+                ),
                 Text('Total: $formattedAmount',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -174,6 +179,20 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListTile(
+                leading: ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(8), // Tạo bo góc cho hình ảnh
+                  child: Image.network(
+                    product.product.imageUrl[1],
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover, // Đảm bảo hình ảnh vừa khung
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.broken_image,
+                          size: 50, color: Colors.grey);
+                    },
+                  ),
+                ),
                 title: Text(product.product.productName,
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(
