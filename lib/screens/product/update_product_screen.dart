@@ -93,185 +93,201 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Tên sản phẩm'),
-                  validator: (value) =>
-                      value!.isEmpty ? 'Vui lòng nhập tên sản phẩm' : null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Product ID: ${widget.product.id}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[700],
                 ),
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: InputDecoration(labelText: 'Mô tả'),
-                  validator: (value) =>
-                      value!.isEmpty ? 'Vui lòng nhập mô tả' : null,
-                ),
-                TextFormField(
-                    controller: _priceController,
-                    decoration:
-                        InputDecoration(labelText: 'Giá', prefixText: '\$'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập giá';
-                      }
-                      if (double.tryParse(value) == null) {
-                        return 'Vui lòng nhập giá hợp lệ';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    controller: _quantityController,
-                    decoration: InputDecoration(labelText: 'Số lượng'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập số lượng';
-                      }
-                      if (int.tryParse(value) == null) {
-                        return 'Vui lòng nhập số lượng hợp lệ';
-                      }
-                      return null;
-                    }),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: 'Size'),
-                  value: _selectedSize,
-                  items: ['S', 'M', 'L', 'XL', 'XXL']
-                      .map((size) => DropdownMenuItem(
-                            value: size,
-                            child: Text(size),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    _selectedSize = value;
-                  },
-                ),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: 'Tình trạng'),
-                  value: _selectedCondition,
-                  items: ['NEW', '98%', '99%']
-                      .map((condition) => DropdownMenuItem(
-                            value: condition,
-                            child: Text(condition),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    _selectedCondition = value;
-                  },
-                ),
-                BlocBuilder<ColorCubit, ColorState>(builder: (context, state) {
-                  if (state is ColorLoading) {
-                    return CircularProgressIndicator();
-                  }
-                  if (state is ColorSuccess) {
-                    return DropdownButtonFormField<String>(
-                      decoration: InputDecoration(labelText: 'Màu sắc'),
-                      value: _selectedColorId,
-                      items: state.colors
-                          .map((color) => DropdownMenuItem(
-                                value: color.id,
-                                child: Text(color.name),
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(labelText: 'Tên sản phẩm'),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Vui lòng nhập tên sản phẩm' : null,
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(labelText: 'Mô tả'),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Vui lòng nhập mô tả' : null,
+                    ),
+                    TextFormField(
+                        controller: _priceController,
+                        decoration:
+                            InputDecoration(labelText: 'Giá', prefixText: '\$'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập giá';
+                          }
+                          if (double.tryParse(value) == null) {
+                            return 'Vui lòng nhập giá hợp lệ';
+                          }
+                          return null;
+                        }),
+                    TextFormField(
+                        controller: _quantityController,
+                        decoration: InputDecoration(labelText: 'Số lượng'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập số lượng';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Vui lòng nhập số lượng hợp lệ';
+                          }
+                          return null;
+                        }),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(labelText: 'Size'),
+                      value: _selectedSize,
+                      items: ['S', 'M', 'L', 'XL', 'XXL']
+                          .map((size) => DropdownMenuItem(
+                                value: size,
+                                child: Text(size),
                               ))
                           .toList(),
                       onChanged: (value) {
-                        _selectedColorId = value;
+                        _selectedSize = value;
                       },
-                    );
-                  }
-                  return Container();
-                }),
-                BlocBuilder<CategoryCubit, CategoryState>(
-                    builder: (context, state) {
-                  if (state is CategoryLoading) {
-                    return CircularProgressIndicator();
-                  }
-                  if (state is CategorySuccess) {
-                    return MultiSelectDialogField(
-                      items: state.categories
-                          .map((category) => MultiSelectItem<Category>(
-                              category, category.name))
+                    ),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(labelText: 'Tình trạng'),
+                      value: _selectedCondition,
+                      items: ['NEW', '98%', '99%']
+                          .map((condition) => DropdownMenuItem(
+                                value: condition,
+                                child: Text(condition),
+                              ))
                           .toList(),
-                      title: Text("Danh mục"),
-                      selectedColor: Colors.blue,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      buttonIcon: Icon(
-                        Icons.category,
-                        color: Colors.blue,
-                      ),
-                      buttonText: Text(
-                        "Chọn danh mục",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      onConfirm: (results) {
-                        setState(() {
-                          // Loại bỏ giá trị trùng lặp bằng cách sử dụng Set
-                          _selectedCategories =
-                              results.cast<Category>().toSet().toList();
-                        });
+                      onChanged: (value) {
+                        _selectedCondition = value;
                       },
-                    );
-                  }
-                  return Container();
-                }),
-                // ElevatedButton(
-                //   onPressed: _pickImages,
-                //   child: Text('Cập nhật ảnh sản phẩm'),
-                // ),
-                // // Hiển thị ảnh đã chọn
-                _images.isNotEmpty
-                    ? GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                        itemCount: _images.length,
-                        itemBuilder: (context, index) {
-                          return Image.network(_images[index]);
-                        },
-                      )
-                    : Container(),
+                    ),
+                    BlocBuilder<ColorCubit, ColorState>(
+                        builder: (context, state) {
+                      if (state is ColorLoading) {
+                        return CircularProgressIndicator();
+                      }
+                      if (state is ColorSuccess) {
+                        return DropdownButtonFormField<String>(
+                          decoration: InputDecoration(labelText: 'Màu sắc'),
+                          value: _selectedColorId,
+                          items: state.colors
+                              .map((color) => DropdownMenuItem(
+                                    value: color.id,
+                                    child: Text(color.name),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            _selectedColorId = value;
+                          },
+                        );
+                      }
+                      return Container();
+                    }),
+                    BlocBuilder<CategoryCubit, CategoryState>(
+                        builder: (context, state) {
+                      if (state is CategoryLoading) {
+                        return CircularProgressIndicator();
+                      }
+                      if (state is CategorySuccess) {
+                        return MultiSelectDialogField(
+                          items: state.categories
+                              .map((category) => MultiSelectItem<Category>(
+                                  category, category.name))
+                              .toList(),
+                          title: Text("Danh mục"),
+                          selectedColor: Colors.blue,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ),
+                          buttonIcon: Icon(
+                            Icons.category,
+                            color: Colors.blue,
+                          ),
+                          buttonText: Text(
+                            "Chọn danh mục",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onConfirm: (results) {
+                            setState(() {
+                              // Loại bỏ giá trị trùng lặp bằng cách sử dụng Set
+                              _selectedCategories =
+                                  results.cast<Category>().toSet().toList();
+                            });
+                          },
+                        );
+                      }
+                      return Container();
+                    }),
+                    // ElevatedButton(
+                    //   onPressed: _pickImages,
+                    //   child: Text('Cập nhật ảnh sản phẩm'),
+                    // ),
+                    // // Hiển thị ảnh đã chọn
+                    _images.isNotEmpty
+                        ? GridView.builder(
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                            itemCount: _images.length,
+                            itemBuilder: (context, index) {
+                              return Image.network(_images[index]);
+                            },
+                          )
+                        : Container(),
 
-                SizedBox(height: 20),
-                BlocConsumer<ProductCubit, ProductState>(
-                    listener: (context, state) {
-                  if (state is ProductUpdateFailure) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.error)),
-                    );
-                  } else if (state is ProductUpdateSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Cập nhật sản phẩm thành công')),
-                    );
-                    final productCubit = context.read<ProductCubit>();
-                    productCubit.setCurrentPage(1);
-                    productCubit.getProducts();
-                    Navigator.of(context).pop();
-                  }
-                }, builder: (context, state) {
-                  if (state is ProductUpdateLoading) {
-                    return CircularProgressIndicator();
-                  }
-                  return ElevatedButton(
-                    onPressed: () => _handleUpdateProduct(context),
-                    child: Text('Cập nhật sản phẩm'),
-                  );
-                }),
-              ],
-            ),
+                    SizedBox(height: 20),
+                    BlocConsumer<ProductCubit, ProductState>(
+                        listener: (context, state) {
+                      if (state is ProductUpdateFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.error)),
+                        );
+                      } else if (state is ProductUpdateSuccess) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Cập nhật sản phẩm thành công')),
+                        );
+                        final productCubit = context.read<ProductCubit>();
+                        productCubit.setCurrentPage(1);
+                        productCubit.getProducts();
+                        Navigator.of(context).pop();
+                      }
+                    }, builder: (context, state) {
+                      if (state is ProductUpdateLoading) {
+                        return CircularProgressIndicator();
+                      }
+                      return ElevatedButton(
+                        onPressed: () => _handleUpdateProduct(context),
+                        child: Text('Cập nhật sản phẩm'),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ],
           ),
         ));
   }

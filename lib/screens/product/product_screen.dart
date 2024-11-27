@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     final product = state.products[index];
                     return ListTile(
                       title: Text(product.productName),
-                      subtitle: Text(product.description),
+                      subtitle: Text(product.id),
                       trailing: Text('\$${product.price}'),
                       isThreeLine: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -93,14 +93,17 @@ class _ProductScreenState extends State<ProductScreen> {
                     if (context.read<ProductCubit>().isLoadingMore) {
                       return Center(child: CircularProgressIndicator());
                     } else {
-                      return Container();
+                      // Thêm khoảng trống cuối danh sách
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height / 2);
                     }
                   }
                 });
           } else if (state is ProductFailure) {
             return Center(child: Text(state.error));
+          } else {
+            return SizedBox(height: 200); // Tạo khoảng trống cuối danh sách
           }
-          return Center(child: Text('No products available'));
         },
       ),
     );

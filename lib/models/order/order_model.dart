@@ -1,10 +1,11 @@
+import 'package:app_manager/models/order/product_order_model.dart';
 import 'package:app_manager/models/product/product_model.dart';
 import 'package:app_manager/models/discount/discount_model.dart';
 
 class Order {
   String id;
   String user;
-  List<Product> products;
+  List<ProductOrderModel> products;
   double totalAmount;
   String status;
   String paymentMethod;
@@ -32,13 +33,15 @@ class Order {
 
   // Phương thức tạo đối tượng từ JSON
   factory Order.fromJson(Map<String, dynamic> json) {
-    var productList = (json['product'] as List?)
+    List<ProductOrderModel> productList = (json['products'] as List<dynamic>?)
             ?.map(
-              (product) => Product.fromJson(product),
+              (item) => ProductOrderModel(
+                product: Product.fromJson(item['product']),
+                quantity: item['quantity'],
+              ),
             )
             .toList() ??
         [];
-
     DiscountModel? discount;
     if (json['discountCode'] != null) {
       discount = DiscountModel.fromJson(json['discountCode']);

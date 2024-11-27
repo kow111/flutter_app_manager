@@ -174,10 +174,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListTile(
-                title: Text(product.productName,
+                title: Text(product.product.productName,
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(
-                    'Qty: ${product.quantity} - ${NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(product.price)}'),
+                    'Qty: ${product.quantity} - ${NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(product.product.price)}'),
               ),
             );
           }).toList(),

@@ -27,16 +27,24 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    var listCategory = (json['category'] as List?)
-            ?.map(
-              (category) => Category.fromJson(category),
-            )
-            .toList() ??
+    var listCategory = (json['category'] as List?)?.map(
+          (category) {
+            if (category is String) {
+              return Category(id: category, name: '');
+            } else {
+              return Category.fromJson(category);
+            }
+          },
+        ).toList() ??
         [];
-
-    var color = json['color'] != null
-        ? Color.fromJson(json['color'])
-        : Color(id: '', name: '');
+    Color color;
+    if (json['color'] is String) {
+      color = Color(id: json['color'], name: '');
+    } else {
+      color = json['color'] != null
+          ? Color.fromJson(json['color'])
+          : Color(id: '', name: '');
+    }
     return Product(
       id: json['_id'],
       productName: json['productName'],
